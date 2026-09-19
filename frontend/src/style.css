@@ -7,3 +7,60 @@ body { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; background: #
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #1e293b; }
 ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+
+/* SQL 编辑器与段落高亮层：字体/内边距/换行必须完全一致才能逐字对齐 */
+.sql-editor,
+.sql-mirror {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  tab-size: 4;
+}
+
+.sql-mirror {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  color: transparent;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* 多段模式：高亮层显示，编辑器背景透明让底色（高亮）透出 */
+.relative:has(> .sql-editor-multi) > .sql-mirror {
+  visibility: visible;
+}
+.sql-editor-multi {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  caret-color: #4ade80;
+}
+
+/* 隐藏高亮层自己的滚动条，滚动由编辑器驱动 */
+.sql-mirror::-webkit-scrollbar { width: 0; height: 0; }
+
+.seg-mark {
+  background: transparent;
+  color: inherit;
+  border-radius: 2px;
+}
+.seg-mark-idle {
+  background: rgba(148, 163, 184, 0.10);
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.18);
+}
+.seg-mark-active {
+  background: rgba(34, 211, 238, 0.22);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.55);
+}
+.seg-mark-error {
+  background: rgba(248, 113, 113, 0.22);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.55);
+}
